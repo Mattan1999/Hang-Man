@@ -10,47 +10,16 @@
     <string name="info_text">Denna appen har programmerats av Mattias Ahlström.</string>
 
     <!-- Game Activity strings -->
-        <string name="guess_hint">Gissa på en bokstav...</string>
-        <string name="guess">Gissa</string>
-        <string name="remaining_tries">Försök kvar: </string>
-        <string name="wrong_guesses">Fel gissningar: </string>
-        <string name="img_description">Hang Man bilder</string>
+    <string name="guess_hint">Gissa på en bokstav…</string>
+    <string name="guess">Gissa</string>
+    <string name="remaining_tries">Försök kvar: </string>
+    <string name="wrong_guesses" />
+    <string name="img_description">Hang Man bilder</string>
 
-        <!-- Keyboard buttons -->
-        <string name="a">A</string>
-        <string name="b">B</string>
-        <string name="c">C</string>
-        <string name="d">D</string>
-        <string name="e">E</string>
-        <string name="f">F</string>
-        <string name="g">G</string>
-        <string name="h">H</string>
-        <string name="i">I</string>
-        <string name="j">J</string>
-        <string name="k">K</string>
-        <string name="l">L</string>
-        <string name="m">M</string>
-        <string name="n">N</string>
-        <string name="o">O</string>
-        <string name="p">P</string>
-        <string name="q">Q</string>
-        <string name="r">R</string>
-        <string name="s">S</string>
-        <string name="t">T</string>
-        <string name="u">U</string>
-        <string name="v">V</string>
-        <string name="w">W</string>
-        <string name="x">X</string>
-        <string name="y">Y</string>
-        <string name="z">Z</string>
-        <string name="å">Å</string>
-        <string name="ä">Ä</string>
-        <string name="ö">Ö</string>
-
-    <!-- Toolbar strings -->
+    <!-- Toast popup strings -->
     <string name="info">Om</string>
-    <string name="hint">hint</string>
     <string name="too_many_characters">Du kan endast skriva in en bokstav!</string>
+    <string name="no_characters">Du måste skriva in en bokstav!</string>
     <string name="character_already_exist">Du har redan gissat på den bokstaven!</string>
     <string name="you_win">Du vann!!!</string>
     <string name="you_lose">Du förlorade!!</string>
