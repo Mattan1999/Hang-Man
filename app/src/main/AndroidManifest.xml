@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".GameActivityInfo"
+            android:name=".GameOverActivity"
             android:parentActivityName=".GameActivity" />
         <activity
             android:name=".GameActivity"

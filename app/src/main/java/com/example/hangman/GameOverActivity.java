@@ -1,9 +1,9 @@
 package com.example.hangman;
 
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,30 +12,40 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class GameOverActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game_over);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Resultat");
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    // Open a new activity showing info
-    public void onInfoClick(View view) {
-        Intent showInfoIntent = new Intent(this, InfoActivity.class);
-        startActivity(showInfoIntent);
+    @Override
+    public Intent getSupportParentActivityIntent() {
+        return getParentActivityIntentImplement();
     }
 
-    // Opens a new activity and starts the game
-    public void onStartGameClick(View view) {
-        Bundle bundle = new Bundle();
-        bundle.putString("goto", "MainActivity");
+    @Override
+    public Intent getParentActivityIntent() {
+        return getParentActivityIntentImplement();
+    }
 
-        Intent startGame = new Intent(this, GameActivity.class);
-        startGame.putExtras(bundle);
-        startActivity(startGame);
+    private Intent getParentActivityIntentImplement() {
+        Intent intent = null;
+
+        Bundle extras = getIntent().getExtras();
+        String goToIntent = extras.getString("goto");
+
+        if (goToIntent.equals("MainActivity")) {
+            intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+        return intent;
     }
 
     @Override
@@ -67,4 +77,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
