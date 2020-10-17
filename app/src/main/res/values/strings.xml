@@ -14,13 +14,17 @@
     <string name="guess">Gissa</string>
     <string name="remaining_tries">Försök kvar: </string>
     <string name="wrong_guesses" />
-    <string name="img_description">Hang Man bilder</string>
+    <string name="img_description">Hänga Gubben bilder</string>
 
     <!-- Toast popup strings -->
     <string name="info">Om</string>
     <string name="too_many_characters">Du kan endast skriva in en bokstav!</string>
     <string name="no_characters">Du måste skriva in en bokstav!</string>
     <string name="character_already_exist">Du har redan gissat på den bokstaven!</string>
-    <string name="you_win">Du vann!!!</string>
-    <string name="you_lose">Du förlorade!!</string>
+
+    <!-- Result page strings -->
+    <string name="you_win">Du vann!</string>
+    <string name="you_lose">Du förlorade!</string>
+    <string name="word_to_guess">Ordet var: </string>
+    <string name="homepage">Tillbaka till huvudmenyn</string>
 </resources>

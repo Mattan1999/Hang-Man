@@ -166,6 +166,7 @@ public class GameActivity extends AppCompatActivity {
             try {
                 if (input.length() < 2) {
                     if (letters.contains(input)) {
+                        userInput.setText("");
                         Toast.makeText(this, R.string.character_already_exist,
                                 Toast.LENGTH_SHORT).show();
                     } else {
@@ -182,6 +183,7 @@ public class GameActivity extends AppCompatActivity {
                     updateImg(userErrors);
                     checkGameStatus();
                 } else {
+                    userInput.setText("");
                     Toast.makeText(this, R.string.too_many_characters,
                             Toast.LENGTH_SHORT).show();
                 }

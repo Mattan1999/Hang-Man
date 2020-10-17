@@ -48,6 +48,11 @@ public class GameOverActivity extends AppCompatActivity {
         return intent;
     }
 
+    public void onHomeClick(View view) {
+        Intent homePage = new Intent(this, MainActivity.class);
+        startActivity(homePage);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
