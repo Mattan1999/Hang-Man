@@ -36,22 +36,48 @@ public class GameActivity extends AppCompatActivity {
             "SYNCHRONIZED", "THIS", "THROW", "THROWS",
             "TRANSIENT", "TRUE", "TRY", "VOID", "VOLATILE", "WHILE"
     };
-    public static final Random random = new Random();
-    // Max errors before user lose
+    public static final Random RANDOM = new Random();
     public static final int MAX_ERRORS = 6;
-    // Word to reveal
-    private String wordToGuess;
-    // Word to reveal stored in a char array to show progression of user
-    private char[] lettersInWordFound;
     private int userErrors;
-    // letters already entered by user
-    private ArrayList<String> letters = new ArrayList<>();
-    private ImageView img;
-    private TextView remainingTries;
-    private int tries = 7;
-    private TextView wordToGuessTv;
-    private TextView wrongGuesses;
+    private TextView txtWordToGuess;
+    private String wordToGuess;
+    private String wordDisplayedString;
+    private char[] wordDisplayedCharArray;
+    private TextView txtWrongGuesses;
+    private String wrongGuesses;
+    private TextView txtRemainingTries;
+    private int remainingTries;
     private TextInputEditText userInput;
+    private ImageView img;
+    private final String MESSAGE_WITH_LETTERS_TRIED = "Fel gissningar: ";
+
+    void initializeGame(){
+        img = findViewById(R.id.img);
+        txtRemainingTries = findViewById(R.id.remaining_tries);
+        txtWordToGuess = findViewById(R.id.word_to_find);
+        userInput = findViewById(R.id.user_input);
+        txtWrongGuesses = findViewById(R.id.wrong_guesses);
+        wordToGuess = hiddenWordToFind();
+        wordDisplayedCharArray = wordToGuess.toCharArray();
+
+        for (int i = 0; i < wordDisplayedCharArray.length; i++) {
+            wordDisplayedCharArray[i] = '_';
+        }
+
+        wordDisplayedString = String.valueOf(wordDisplayedCharArray);
+
+        displayWordOnScreen();
+
+        userInput.setText("");
+        userErrors = -1;
+        updateImg(userErrors);
+
+        wrongGuesses = "";
+        txtWrongGuesses.setText(MESSAGE_WITH_LETTERS_TRIED);
+
+        remainingTries = 7;
+        txtRemainingTries.setText(getString(R.string.remaining_tries, remainingTries));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +90,6 @@ public class GameActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initializeGame();
-        startGame();
     }
 
     @Override
@@ -108,54 +133,72 @@ public class GameActivity extends AppCompatActivity {
         return intent;
     }
 
-    public void initializeGame(){
-        img = findViewById(R.id.img);
-        remainingTries = findViewById(R.id.remaining_tries);
-        wordToGuessTv = findViewById(R.id.word_to_find);
-        userInput = findViewById(R.id.user_input);
-        wrongGuesses = findViewById(R.id.wrong_guesses);
-        wordToGuess = hiddenWordToFind();
-        lettersInWordFound = new char[wordToGuess.length()];
-
-        for (int i = 0; i < lettersInWordFound.length; i++){
-            lettersInWordFound[i] = '_';
-        }
-    }
-
-    public void startGame(){
-        userErrors = -1;
-        letters.clear();
-        updateImg(userErrors);
-        wordToGuessTv.setText(printWordToGuess());
-    }
-
     // Method returning randomly next word to find
     private String hiddenWordToFind() {
-        return myListOfWords[random.nextInt(myListOfWords.length)];
+        return myListOfWords[RANDOM.nextInt(myListOfWords.length)];
     }
 
-    private String printWordToGuess() {
-        StringBuilder hiddenWord = new StringBuilder();
-        for (int i = 0; i < lettersInWordFound.length; i++){
-            hiddenWord.append(lettersInWordFound[i]);
-            if (i < lettersInWordFound.length - 1) {
-                hiddenWord.append(" ");
+    private void checkIfLetterIsInWord(String letter) {
+        if (wordToGuess.contains(letter)) {
+            if (!wordDisplayedString.contains(letter)) {
+                revealLetterInWord(letter);
+                displayWordOnScreen();
+
+                if (!wordDisplayedString.contains("_")) {
+                    youWon();
+                }
+            }
+        } else {
+            userInput.setText("");
+            //Display tried letter
+            if (!wrongGuesses.contains(letter)) {
+                wrongGuesses += letter + ", ";
+                String messageToBeDisplayed = MESSAGE_WITH_LETTERS_TRIED + wrongGuesses;
+                txtWrongGuesses.setText(messageToBeDisplayed);
+
+                decreaseAndDisplayRemainingTries();
+                updateImg(userErrors);
+            } else {
+                userInput.setText("");
+                Toast.makeText(this, R.string.character_already_exist,
+                        Toast.LENGTH_SHORT).show();
+            }
+            //Check if user lost the game
+            if (remainingTries == 0 || userErrors >= MAX_ERRORS) {
+                youLost();
             }
         }
-        return hiddenWord.toString();
     }
 
-    private void revealWordToGuess(String letter) {
-        int indexOfLetter = wordToGuess.indexOf(letter);
-        while (indexOfLetter >= 0) {
-            lettersInWordFound[indexOfLetter] = wordToGuess.charAt(indexOfLetter);
-            indexOfLetter = wordToGuess.indexOf(letter, indexOfLetter + 1);
+    private void decreaseAndDisplayRemainingTries() {
+        if (!(remainingTries == 0)) {
+            remainingTries--;
+            userErrors++;
+            txtRemainingTries.setText(getString(R.string.remaining_tries, remainingTries));
         }
-        wordToGuessTv.setText(printWordToGuess());
     }
 
-    private void updateImg(int play) {
-        int resImg = getResources().getIdentifier("hangman_" + play, "drawable",
+    private void displayWordOnScreen() {
+        StringBuilder formattedString = new StringBuilder();
+
+        for (char character: wordDisplayedCharArray) {
+            formattedString.append(character).append(" ");
+        }
+        txtWordToGuess.setText(formattedString.toString());
+    }
+
+    private void revealLetterInWord(String input) {
+        int indexOfLetter = wordToGuess.indexOf(input);
+
+        while (indexOfLetter >= 0) {
+            wordDisplayedCharArray[indexOfLetter] = wordToGuess.charAt(indexOfLetter);
+            indexOfLetter = wordToGuess.indexOf(input, indexOfLetter + 1);
+        }
+        wordDisplayedString = String.valueOf(wordDisplayedCharArray);
+    }
+
+    private void updateImg(int number) {
+        int resImg = getResources().getIdentifier("hangman_" + number, "drawable",
                 getPackageName());
         img.setImageResource(resImg);
     }
@@ -165,23 +208,7 @@ public class GameActivity extends AppCompatActivity {
             String input = userInput.getText().toString();
             try {
                 if (input.length() < 2) {
-                    if (letters.contains(input)) {
-                        userInput.setText("");
-                        Toast.makeText(this, R.string.character_already_exist,
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (wordToGuess.contains(input)) {
-                            revealWordToGuess(input);
-                        } else {
-                            userErrors++;
-                        }
-                        userInput.setText("");
-                        letters.add(input);
-                        wrongGuesses.setText(letters.toString());
-                    }
-                    wordToGuessTv.setText(printWordToGuess());
-                    updateImg(userErrors);
-                    checkGameStatus();
+                    checkIfLetterIsInWord(input);
                 } else {
                     userInput.setText("");
                     Toast.makeText(this, R.string.too_many_characters,
@@ -194,28 +221,22 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void checkGameStatus() {
-        if (wordIsFound()) {
-            Bundle bundle = new Bundle();
-            bundle.putString("goto", "MainActivity");
+    private void youWon() {
+        Bundle bundle = new Bundle();
+        bundle.putString("goto", "MainActivity");
 
-            Intent gameOver = new Intent(this, GameOverActivity.class);
-            gameOver.putExtras(bundle);
-            startActivity(gameOver);
-        } else {
-            if (userErrors >= MAX_ERRORS) {
-                Bundle bundle = new Bundle();
-                bundle.putString("goto", "MainActivity");
-
-                Intent gameOver = new Intent(this, GameOverActivity.class);
-                gameOver.putExtras(bundle);
-                startActivity(gameOver);
-            }
-        }
+        Intent gameOver = new Intent(this, GameOverActivity.class);
+        gameOver.putExtras(bundle);
+        startActivity(gameOver);
     }
 
-    private boolean wordIsFound() {
-        return wordToGuess.contentEquals(new String(lettersInWordFound));
+    private void youLost() {
+        Bundle bundle = new Bundle();
+        bundle.putString("goto", "MainActivity");
+
+        Intent gameOver = new Intent(this, GameOverActivity.class);
+        gameOver.putExtras(bundle);
+        startActivity(gameOver);
     }
 
 }

@@ -12,7 +12,7 @@
     <!-- Game Activity strings -->
     <string name="guess_hint">Gissa på en bokstav…</string>
     <string name="guess">Gissa</string>
-    <string name="remaining_tries">Försök kvar: </string>
+    <string name="remaining_tries">Försök kvar: %1$d</string>
     <string name="wrong_guesses" />
     <string name="img_description">Hänga Gubben bilder</string>
 
