@@ -6,18 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -38,6 +40,8 @@ public class GameActivity extends AppCompatActivity {
     };
     public static final Random RANDOM = new Random();
     public static final int MAX_ERRORS = 6;
+    private final String YOU_WON = "Du Vann!";
+    private final String YOU_LOST = "Du Förlorade!";
     private int userErrors;
     private TextView txtWordToGuess;
     private String wordToGuess;
@@ -47,11 +51,11 @@ public class GameActivity extends AppCompatActivity {
     private String wrongGuesses;
     private TextView txtRemainingTries;
     private int remainingTries;
-    private TextInputEditText userInput;
+    private EditText userInput;
     private ImageView img;
     private final String MESSAGE_WITH_LETTERS_TRIED = "Fel gissningar: ";
 
-    void initializeGame(){
+    void initializeGame() {
         img = findViewById(R.id.img);
         txtRemainingTries = findViewById(R.id.remaining_tries);
         txtWordToGuess = findViewById(R.id.word_to_find);
@@ -59,11 +63,7 @@ public class GameActivity extends AppCompatActivity {
         txtWrongGuesses = findViewById(R.id.wrong_guesses);
         wordToGuess = hiddenWordToFind();
         wordDisplayedCharArray = wordToGuess.toCharArray();
-
-        for (int i = 0; i < wordDisplayedCharArray.length; i++) {
-            wordDisplayedCharArray[i] = '_';
-        }
-
+        Arrays.fill(wordDisplayedCharArray, '_');
         wordDisplayedString = String.valueOf(wordDisplayedCharArray);
 
         displayWordOnScreen();
@@ -90,6 +90,9 @@ public class GameActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initializeGame();
+        String url = "https://upload.wikimedia.org/wikipedia/commons/e/e3/Logo_BILD.svg";
+
+        Picasso.get().load(url).into(img);
     }
 
     @Override
@@ -101,11 +104,9 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.info_screen:
-                Intent showInfoIntent = new Intent(this, InfoActivity.class);
-                startActivity(showInfoIntent);
-                break;
+        if (item.getItemId() == R.id.info_screen) {
+            Intent showInfoIntent = new Intent(this, InfoActivity.class);
+            startActivity(showInfoIntent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -140,13 +141,11 @@ public class GameActivity extends AppCompatActivity {
 
     private void checkIfLetterIsInWord(String letter) {
         if (wordToGuess.contains(letter)) {
-            if (!wordDisplayedString.contains(letter)) {
-                revealLetterInWord(letter);
-                displayWordOnScreen();
-
-                if (!wordDisplayedString.contains("_")) {
-                    youWon();
-                }
+            userInput.setText("");
+            revealLetterInWord(letter);
+            displayWordOnScreen();
+            if (!wordDisplayedString.contains("_")) {
+                youWon();
             }
         } else {
             userInput.setText("");
@@ -201,20 +200,26 @@ public class GameActivity extends AppCompatActivity {
         int resImg = getResources().getIdentifier("hangman_" + number, "drawable",
                 getPackageName());
         img.setImageResource(resImg);
+        //String url = "https://github.com/Mattan1999/Hang-Man/master/hangman_\" + number + \".png";
+        //Picasso.get().load(url).into(img);
     }
 
     public void onGuessClick(View view){
         if (userErrors < MAX_ERRORS) {
-            String input = userInput.getText().toString();
-            try {
-                if (input.length() < 2) {
-                    checkIfLetterIsInWord(input);
-                } else {
+            String input = userInput.getText().toString().toUpperCase();
+            if (input.length() == 1) {
+                boolean isLetter = Character.isLetter(input.charAt(0));
+                if (isLetter) checkIfLetterIsInWord(input);
+                else {
                     userInput.setText("");
-                    Toast.makeText(this, R.string.too_many_characters,
+                    Toast.makeText(this, "Du kan endast gissa på bokstäver!",
                             Toast.LENGTH_SHORT).show();
                 }
-            } catch (Exception e) {
+            } else if (input.length() > 1) {
+                userInput.setText("");
+                Toast.makeText(this, R.string.too_many_characters,
+                        Toast.LENGTH_SHORT).show();
+            } else {
                 Toast.makeText(this, R.string.no_characters,
                         Toast.LENGTH_SHORT).show();
             }
@@ -226,7 +231,12 @@ public class GameActivity extends AppCompatActivity {
         bundle.putString("goto", "MainActivity");
 
         Intent gameOver = new Intent(this, GameOverActivity.class);
+
         gameOver.putExtras(bundle);
+        gameOver.putExtra("WORD", wordToGuess);
+        gameOver.putExtra("MSG", YOU_WON);
+        gameOver.putExtra("TRIES_LEFT", remainingTries);
+
         startActivity(gameOver);
     }
 
@@ -235,7 +245,12 @@ public class GameActivity extends AppCompatActivity {
         bundle.putString("goto", "MainActivity");
 
         Intent gameOver = new Intent(this, GameOverActivity.class);
+
         gameOver.putExtras(bundle);
+        gameOver.putExtra("WORD", wordToGuess);
+        gameOver.putExtra("MSG", YOU_LOST);
+        gameOver.putExtra("TRIES_LEFT", remainingTries);
+
         startActivity(gameOver);
     }
 

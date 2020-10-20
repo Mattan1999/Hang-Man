@@ -4,15 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 
 public class GameOverActivity extends AppCompatActivity {
+
+    private TextView txtPlayResult;
+    private TextView txtWord;
+    private TextView txtTriesLeft;
+    private Intent intent;
+    private String playResult;
+    private String word;
+    private int triesLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +32,20 @@ public class GameOverActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Resultat");
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
+        txtPlayResult = findViewById(R.id.play_result);
+        txtWord = findViewById(R.id.word);
+        txtTriesLeft = findViewById(R.id.tries_left);
+
+        intent = getIntent();
+
+        playResult = intent.getStringExtra("MSG");
+        word = intent.getStringExtra("WORD");
+        triesLeft = intent.getIntExtra("TRIES_LEFT", 0);
+
+        txtPlayResult.setText(playResult);
+        txtWord.setText("Ordet var: " + word);
+        txtTriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
     }
 
     @Override
@@ -54,14 +77,14 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.start_game_btn:
                 Bundle bundle = new Bundle();
@@ -76,9 +99,6 @@ public class GameOverActivity extends AppCompatActivity {
                 Intent showInfoIntent = new Intent(this, InfoActivity.class);
                 startActivity(showInfoIntent);
                 break;
-
-            default:
-                //
         }
         return super.onOptionsItemSelected(item);
     }
