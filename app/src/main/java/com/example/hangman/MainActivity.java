@@ -1,9 +1,7 @@
 package com.example.hangman;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,22 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    // Open a new activity showing info
-    public void onInfoClick(View view) {
-        Intent showInfoIntent = new Intent(this, InfoActivity.class);
-        startActivity(showInfoIntent);
-    }
-
-    // Opens a new activity and starts the game
-    public void onStartGameClick(View view) {
-        Bundle bundle = new Bundle();
-        bundle.putString("goto", "MainActivity");
-
-        Intent startGame = new Intent(this, GameActivity.class);
-        startGame.putExtras(bundle);
-        startActivity(startGame);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -49,11 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.start_game_btn:
-                Bundle bundle = new Bundle();
-                bundle.putString("goto", "MainActivity");
-
                 Intent gameOver = new Intent(this, GameActivity.class);
-                gameOver.putExtras(bundle);
                 startActivity(gameOver);
                 break;
 
@@ -61,10 +39,19 @@ public class MainActivity extends AppCompatActivity {
                 Intent showInfoIntent = new Intent(this, InfoActivity.class);
                 startActivity(showInfoIntent);
                 break;
-
-            default:
-                //
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Open a new activity showing info
+    public void onInfoClick(View view) {
+        Intent showInfoIntent = new Intent(this, InfoActivity.class);
+        startActivity(showInfoIntent);
+    }
+
+    // Opens a new activity and starts the game
+    public void onStartGameClick(View view) {
+        Intent startGame = new Intent(this, GameActivity.class);
+        startActivity(startGame);
     }
 }

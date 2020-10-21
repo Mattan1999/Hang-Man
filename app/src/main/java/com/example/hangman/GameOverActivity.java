@@ -29,7 +29,7 @@ public class GameOverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_over);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Resultat");
+
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -44,36 +44,14 @@ public class GameOverActivity extends AppCompatActivity {
         triesLeft = intent.getIntExtra("TRIES_LEFT", 0);
 
         txtPlayResult.setText(playResult);
-        txtWord.setText("Ordet var: " + word);
+        txtWord.setText((getString(R.string.word_to_guess) + " " + word));
         txtTriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
-    }
-
-    @Override
-    public Intent getSupportParentActivityIntent() {
-        return getParentActivityIntentImplement();
-    }
-
-    @Override
-    public Intent getParentActivityIntent() {
-        return getParentActivityIntentImplement();
-    }
-
-    private Intent getParentActivityIntentImplement() {
-        Intent intent = null;
-
-        Bundle extras = getIntent().getExtras();
-        String goToIntent = extras.getString("goto");
-
-        if (goToIntent.equals("MainActivity")) {
-            intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        }
-        return intent;
     }
 
     public void onHomeClick(View view) {
         Intent homePage = new Intent(this, MainActivity.class);
         startActivity(homePage);
+        finish();
     }
 
     @Override
@@ -87,11 +65,7 @@ public class GameOverActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.start_game_btn:
-                Bundle bundle = new Bundle();
-                bundle.putString("goto", "MainActivity");
-
                 Intent gameOver = new Intent(this, GameActivity.class);
-                gameOver.putExtras(bundle);
                 startActivity(gameOver);
                 break;
 

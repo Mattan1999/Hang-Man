@@ -2,14 +2,16 @@
     <string name="app_name">Hang Man</string>
 
     <!-- Main Activity strings -->
-    <string name="main_screen_header">Hänga Gubben</string>
+    <string name="main_header">Hänga Gubben</string>
     <string name="start_game_btn">Starta spelet</string>
     <string name="info_btn">Om spelet</string>
 
     <!-- Info Activity strings -->
+    <string name="info_title">Om appen</string>
     <string name="info_text">Denna appen har programmerats av Mattias Ahlström.</string>
 
     <!-- Game Activity strings -->
+    <string name="game_title">Hänga gubben</string>
     <string name="guess_hint">Gissa på en bokstav…</string>
     <string name="guess">Gissa</string>
     <string name="remaining_tries">Försök kvar: %1$d</string>
@@ -23,8 +25,7 @@
     <string name="character_already_exist">Du har redan gissat på den bokstaven!</string>
 
     <!-- Result page strings -->
-    <string name="you_win">Du vann!</string>
-    <string name="you_lose">Du förlorade!</string>
-    <string name="word_to_guess">Ordet var: </string>
+    <string name="result_title">Resultat</string>
+    <string name="word_to_guess">Ordet var:</string>
     <string name="homepage">Tillbaka till huvudmenyn</string>
 </resources>

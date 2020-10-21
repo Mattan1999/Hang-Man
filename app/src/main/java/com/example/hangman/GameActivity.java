@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -85,14 +84,12 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Hang Man");
+
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initializeGame();
-        String url = "https://upload.wikimedia.org/wikipedia/commons/e/e3/Logo_BILD.svg";
 
-        Picasso.get().load(url).into(img);
     }
 
     @Override
@@ -109,29 +106,6 @@ public class GameActivity extends AppCompatActivity {
             startActivity(showInfoIntent);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Intent getSupportParentActivityIntent() {
-        return getParentActivityIntentImplement();
-    }
-
-    @Override
-    public Intent getParentActivityIntent() {
-        return getParentActivityIntentImplement();
-    }
-
-    private Intent getParentActivityIntentImplement() {
-        Intent intent = null;
-
-        Bundle extras = getIntent().getExtras();
-        String goToIntent = extras.getString("goto");
-
-        if (goToIntent.equals("MainActivity")) {
-            intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        }
-        return intent;
     }
 
     // Method returning randomly next word to find
@@ -197,11 +171,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateImg(int number) {
-        int resImg = getResources().getIdentifier("hangman_" + number, "drawable",
-                getPackageName());
-        img.setImageResource(resImg);
-        //String url = "https://github.com/Mattan1999/Hang-Man/master/hangman_\" + number + \".png";
-        //Picasso.get().load(url).into(img);
+        String url = "https://raw.githubusercontent.com/Mattan1999/Hang-Man/master/app/src/main/res/drawable-v24/hangman_" + number + ".png";
+        Glide.with(this).load(url).into(img);
     }
 
     public void onGuessClick(View view){
@@ -227,31 +198,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void youWon() {
-        Bundle bundle = new Bundle();
-        bundle.putString("goto", "MainActivity");
-
         Intent gameOver = new Intent(this, GameOverActivity.class);
-
-        gameOver.putExtras(bundle);
         gameOver.putExtra("WORD", wordToGuess);
         gameOver.putExtra("MSG", YOU_WON);
         gameOver.putExtra("TRIES_LEFT", remainingTries);
-
         startActivity(gameOver);
+        finish();
     }
 
     private void youLost() {
-        Bundle bundle = new Bundle();
-        bundle.putString("goto", "MainActivity");
-
         Intent gameOver = new Intent(this, GameOverActivity.class);
-
-        gameOver.putExtras(bundle);
         gameOver.putExtra("WORD", wordToGuess);
         gameOver.putExtra("MSG", YOU_LOST);
         gameOver.putExtra("TRIES_LEFT", remainingTries);
-
         startActivity(gameOver);
+        finish();
     }
 
 }

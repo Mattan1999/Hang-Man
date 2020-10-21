@@ -13,17 +13,20 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".GameOverActivity"
-            android:parentActivityName=".GameActivity" />
+            android:label="@string/result_title"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".GameActivity"
+            android:label="@string/game_title"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".InfoActivity"
+            android:label="@string/info_title"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="@string/main_header">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
