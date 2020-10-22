@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,17 +48,15 @@ public class GameActivity extends AppCompatActivity {
     private char[] wordDisplayedCharArray;
     private TextView txtWrongGuesses;
     private String wrongGuesses;
-    private TextView txtRemainingTries;
-    private int remainingTries;
-    private EditText userInput;
+    private TextView txttriesLeft;
+    private int triesLeft;
     private ImageView img;
     private final String MESSAGE_WITH_LETTERS_TRIED = "Fel gissningar: ";
 
     void initializeGame() {
         img = findViewById(R.id.img);
-        txtRemainingTries = findViewById(R.id.remaining_tries);
+        txttriesLeft = findViewById(R.id.remaining_tries);
         txtWordToGuess = findViewById(R.id.word_to_find);
-        userInput = findViewById(R.id.user_input);
         txtWrongGuesses = findViewById(R.id.wrong_guesses);
         wordToGuess = hiddenWordToFind();
         wordDisplayedCharArray = wordToGuess.toCharArray();
@@ -67,15 +65,14 @@ public class GameActivity extends AppCompatActivity {
 
         displayWordOnScreen();
 
-        userInput.setText("");
         userErrors = -1;
         updateImg(userErrors);
 
         wrongGuesses = "";
         txtWrongGuesses.setText(MESSAGE_WITH_LETTERS_TRIED);
 
-        remainingTries = 7;
-        txtRemainingTries.setText(getString(R.string.remaining_tries, remainingTries));
+        triesLeft = 7;
+        txttriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
     }
 
     @Override
@@ -89,7 +86,6 @@ public class GameActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         initializeGame();
-
     }
 
     @Override
@@ -108,46 +104,50 @@ public class GameActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Method returning randomly next word to find
+    @Override
+    public void onBackPressed() {
+        Intent home = new Intent(this, MainActivity.class);
+        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(home);
+    }
+
+    // Method returning randomly a word to find
     private String hiddenWordToFind() {
         return myListOfWords[RANDOM.nextInt(myListOfWords.length)];
     }
 
     private void checkIfLetterIsInWord(String letter) {
         if (wordToGuess.contains(letter)) {
-            userInput.setText("");
             revealLetterInWord(letter);
             displayWordOnScreen();
             if (!wordDisplayedString.contains("_")) {
                 youWon();
             }
         } else {
-            userInput.setText("");
             //Display tried letter
             if (!wrongGuesses.contains(letter)) {
                 wrongGuesses += letter + ", ";
                 String messageToBeDisplayed = MESSAGE_WITH_LETTERS_TRIED + wrongGuesses;
                 txtWrongGuesses.setText(messageToBeDisplayed);
 
-                decreaseAndDisplayRemainingTries();
+                decreaseAndDisplaytriesLeft();
                 updateImg(userErrors);
             } else {
-                userInput.setText("");
                 Toast.makeText(this, R.string.character_already_exist,
                         Toast.LENGTH_SHORT).show();
             }
             //Check if user lost the game
-            if (remainingTries == 0 || userErrors >= MAX_ERRORS) {
+            if (triesLeft == 0) {
                 youLost();
             }
         }
     }
 
-    private void decreaseAndDisplayRemainingTries() {
-        if (!(remainingTries == 0)) {
-            remainingTries--;
+    private void decreaseAndDisplaytriesLeft() {
+        if (!(triesLeft == 0)) {
+            triesLeft--;
             userErrors++;
-            txtRemainingTries.setText(getString(R.string.remaining_tries, remainingTries));
+            txttriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
         }
     }
 
@@ -175,44 +175,31 @@ public class GameActivity extends AppCompatActivity {
         Glide.with(this).load(url).into(img);
     }
 
-    public void onGuessClick(View view){
-        if (userErrors < MAX_ERRORS) {
-            String input = userInput.getText().toString().toUpperCase();
-            if (input.length() == 1) {
-                boolean isLetter = Character.isLetter(input.charAt(0));
-                if (isLetter) checkIfLetterIsInWord(input);
-                else {
-                    userInput.setText("");
-                    Toast.makeText(this, "Du kan endast gissa på bokstäver!",
-                            Toast.LENGTH_SHORT).show();
-                }
-            } else if (input.length() > 1) {
-                userInput.setText("");
-                Toast.makeText(this, R.string.too_many_characters,
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.no_characters,
-                        Toast.LENGTH_SHORT).show();
-            }
+    public void touchLetter(View view){
+        boolean buttonPressed = ((Button) view).isPressed();
+        if (buttonPressed) {
+            ((Button) view).setEnabled(false);
         }
+        String input = ((Button) view).getText().toString();
+        checkIfLetterIsInWord(input);
     }
 
     private void youWon() {
         Intent gameOver = new Intent(this, GameOverActivity.class);
         gameOver.putExtra("WORD", wordToGuess);
         gameOver.putExtra("MSG", YOU_WON);
-        gameOver.putExtra("TRIES_LEFT", remainingTries);
+        gameOver.putExtra("TRIES_LEFT", triesLeft);
+//        gameOver.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(gameOver);
-        finish();
     }
 
     private void youLost() {
         Intent gameOver = new Intent(this, GameOverActivity.class);
         gameOver.putExtra("WORD", wordToGuess);
         gameOver.putExtra("MSG", YOU_LOST);
-        gameOver.putExtra("TRIES_LEFT", remainingTries);
+        gameOver.putExtra("TRIES_LEFT", triesLeft);
+//        gameOver.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(gameOver);
-        finish();
     }
 
 }

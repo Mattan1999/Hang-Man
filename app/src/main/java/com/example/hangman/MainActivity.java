@@ -46,12 +46,14 @@ public class MainActivity extends AppCompatActivity {
     // Open a new activity showing info
     public void onInfoClick(View view) {
         Intent showInfoIntent = new Intent(this, InfoActivity.class);
+        showInfoIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(showInfoIntent);
     }
 
     // Opens a new activity and starts the game
     public void onStartGameClick(View view) {
         Intent startGame = new Intent(this, GameActivity.class);
+        startGame.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(startGame);
     }
 }

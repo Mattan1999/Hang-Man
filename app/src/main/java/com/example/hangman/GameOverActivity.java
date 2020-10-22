@@ -50,8 +50,8 @@ public class GameOverActivity extends AppCompatActivity {
 
     public void onHomeClick(View view) {
         Intent homePage = new Intent(this, MainActivity.class);
+        homePage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homePage);
-        finish();
     }
 
     @Override
