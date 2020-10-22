@@ -4,7 +4,6 @@
     <item
         android:id="@+id/start_game_btn"
         android:icon="@drawable/ic_baseline_play_arrow_24"
-        android:title="@string/start_game_btn"
         android:visible="true"
         app:iconTint="@color/actionbarIconColor"
         app:showAsAction="ifRoom" />
@@ -12,7 +11,6 @@
     <item
         android:id="@+id/info_screen"
         android:icon="@drawable/ic_outline_info_24"
-        android:title="@string/info"
         app:iconTint="@color/actionbarIconColor"
         app:showAsAction="ifRoom" />
 </menu>

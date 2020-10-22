@@ -126,15 +126,14 @@ public class GameActivity extends AppCompatActivity {
         } else {
             //Display tried letter
             if (!wrongGuesses.contains(letter)) {
+                Toast.makeText(this, R.string.wrong_letter,
+                        Toast.LENGTH_SHORT).show();
                 wrongGuesses += letter + ", ";
                 String messageToBeDisplayed = MESSAGE_WITH_LETTERS_TRIED + wrongGuesses;
                 txtWrongGuesses.setText(messageToBeDisplayed);
 
                 decreaseAndDisplaytriesLeft();
                 updateImg(userErrors);
-            } else {
-                Toast.makeText(this, R.string.character_already_exist,
-                        Toast.LENGTH_SHORT).show();
             }
             //Check if user lost the game
             if (triesLeft == 0) {
