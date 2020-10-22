@@ -9,8 +9,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    RadioGroup radioGroup;
+    RadioButton swedish, english;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +24,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        radioGroup = findViewById(R.id.radioGroup);
+        swedish = findViewById(R.id.swedish);
+        english = findViewById(R.id.english);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                changeLanguage(swedish, english);
+            }
+        });
     }
 
     @Override
@@ -56,4 +72,13 @@ public class MainActivity extends AppCompatActivity {
         startGame.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(startGame);
     }
+
+    public void changeLanguage(RadioButton swedish, RadioButton english) {
+        if (swedish.isChecked()) {
+
+        } else if (english.isChecked()) {
+            
+        }
+    }
+
 }

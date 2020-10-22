@@ -64,11 +64,12 @@
         app:layout_constraintTop_toBottomOf="@+id/start_game_btn"
         app:layout_constraintVertical_bias="0.0" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -81,6 +82,7 @@
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
             android:layout_marginBottom="10dp"
+            android:checked="false"
             android:text="Svenska"
             android:textColor="#000000"
             android:textSize="14sp"
@@ -91,12 +93,13 @@
             android:id="@+id/english"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="English"
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/swedish"
             app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RadioGroup>
 
     <TextView
         android:id="@+id/change_language"
