@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                changeLanguage(swedish, english);
+                changeLanguage(checkedId);
             }
         });
     }
@@ -76,13 +76,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startGame);
     }
 
-    private void changeLanguage(RadioButton swedish, RadioButton english) {
-        if (swedish.isChecked()) {
-            setLanguage("sv");
-            recreate();
-        } else if (english.isChecked()) {
-            setLanguage("en");
-            recreate();
+    private void changeLanguage(int checkedButton) {
+        switch (checkedButton) {
+            case R.id.swedish:
+                setLanguage("sv");
+                recreate();
+                break;
+            case R.id.english:
+                setLanguage("en");
+                recreate();
         }
     }
 
