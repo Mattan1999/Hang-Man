@@ -1,3 +1,4 @@
+
 <resources>
     <string name="app_name">Hang Man</string>
 
@@ -11,7 +12,7 @@
 
     <!-- Info Activity strings -->
     <string name="info_title">Om appen</string>
-    <string name="info_text">Denna appen har programmerats av Mattias Ahlström.</string>
+    <string name="info_text">Den här appen har utvecklats av Mattias Ahlström.</string>
 
     <!-- Game Activity strings -->
     <string name="game_title">Hänga gubben</string>
@@ -24,6 +25,8 @@
 
     <!-- Result page strings -->
     <string name="result_title">Resultat</string>
+    <string name="you_won">Du vann!</string>
+    <string name="you_lost">Du fölorade!</string>
     <string name="word_to_guess">Ordet var:</string>
     <string name="homepage">Tillbaka till huvudmenyn</string>
 </resources>

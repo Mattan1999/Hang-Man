@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         if (swedish.isChecked()) {
 
         } else if (english.isChecked()) {
-            
+
         }
     }
 

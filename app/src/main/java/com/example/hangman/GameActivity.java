@@ -38,9 +38,8 @@ public class GameActivity extends AppCompatActivity {
             "TRANSIENT", "TRUE", "TRY", "VOID", "VOLATILE", "WHILE"
     };
     public static final Random RANDOM = new Random();
-    public static final int MAX_ERRORS = 6;
-    private final String YOU_WON = "Du Vann!";
-    private final String YOU_LOST = "Du Förlorade!";
+    private String YOU_WON;
+    private String YOU_LOST;
     private int userErrors;
     private TextView txtWordToGuess;
     private String wordToGuess;
@@ -48,16 +47,19 @@ public class GameActivity extends AppCompatActivity {
     private char[] wordDisplayedCharArray;
     private TextView txtWrongGuesses;
     private String wrongGuesses;
-    private TextView txttriesLeft;
+    private TextView txtTriesLeft;
     private int triesLeft;
     private ImageView img;
     private final String MESSAGE_WITH_LETTERS_TRIED = "Fel gissningar: ";
 
+
     void initializeGame() {
         img = findViewById(R.id.img);
-        txttriesLeft = findViewById(R.id.remaining_tries);
+        txtTriesLeft = findViewById(R.id.remaining_tries);
         txtWordToGuess = findViewById(R.id.word_to_find);
         txtWrongGuesses = findViewById(R.id.wrong_guesses);
+        YOU_WON = getText(R.string.you_won).toString();
+        YOU_LOST = getText(R.string.you_lost).toString();
         wordToGuess = hiddenWordToFind();
         wordDisplayedCharArray = wordToGuess.toCharArray();
         Arrays.fill(wordDisplayedCharArray, '_');
@@ -72,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
         txtWrongGuesses.setText(MESSAGE_WITH_LETTERS_TRIED);
 
         triesLeft = 7;
-        txttriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
+        txtTriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
     }
 
     @Override
@@ -146,7 +148,7 @@ public class GameActivity extends AppCompatActivity {
         if (!(triesLeft == 0)) {
             triesLeft--;
             userErrors++;
-            txttriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
+            txtTriesLeft.setText(getString(R.string.remaining_tries, triesLeft));
         }
     }
 

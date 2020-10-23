@@ -25,6 +25,8 @@
 
     <!-- Result page strings -->
     <string name="result_title">Result</string>
+    <string name="you_won">You won!</string>
+    <string name="you_lost">You lost!</string>
     <string name="word_to_guess">The word was:</string>
     <string name="homepage">Back to homepage</string>
 </resources>
