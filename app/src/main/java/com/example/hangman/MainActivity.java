@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,13 +31,6 @@ public class MainActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         swedish = findViewById(R.id.swedish);
         english = findViewById(R.id.english);
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                changeLanguage(checkedId);
-            }
-        });
     }
 
     @Override
@@ -76,15 +70,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startGame);
     }
 
-    private void changeLanguage(int checkedButton) {
-        switch (checkedButton) {
-            case R.id.swedish:
-                setLanguage("sv");
-                recreate();
+    public void changeLanguage(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch (view.getId()) {
+            case R.id.swedish: {
+                if (checked) {
+                    setLanguage("sv");
+                    recreate();
+                }
                 break;
-            case R.id.english:
-                setLanguage("en");
-                recreate();
+            }
+            case R.id.english: {
+                if (checked) {
+                    setLanguage("en");
+                    recreate();
+                }
+            }
         }
     }
 
