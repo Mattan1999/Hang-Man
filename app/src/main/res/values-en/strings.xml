@@ -17,11 +17,11 @@
     <!-- Game Activity strings -->
     <string name="game_title">Hang Man</string>
     <string name="remaining_tries">Tries left: %1$d</string>
-    <string name="wrong_guesses" />
+    <string name="wrong_guesses">Wrong guesses:</string>
     <string name="img_description">Hang Man pictures</string>
 
     <!-- Toast popup strings -->
-    <string name="wrong_letter">Wrong letter. Try again!</string>
+    <string name="wrong_guess">Wrong letter. Try again!</string>
 
     <!-- Result page strings -->
     <string name="result_title">Result</string>

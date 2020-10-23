@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,11 +13,13 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    RadioGroup radioGroup;
-    RadioButton swedish, english;
+    private RadioGroup radioGroup;
+    private RadioButton swedish, english;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +76,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startGame);
     }
 
-    public void changeLanguage(RadioButton swedish, RadioButton english) {
+    private void changeLanguage(RadioButton swedish, RadioButton english) {
         if (swedish.isChecked()) {
-
+            setLanguage("sv");
+            recreate();
         } else if (english.isChecked()) {
-
+            setLanguage("en");
+            recreate();
         }
+    }
+
+    private void setLanguage(String lang) {
+        String languageToLoad = lang; // your language
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+        this.setContentView(R.layout.activity_main);
     }
 
 }

@@ -25,17 +25,7 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
 
     public static final String[] myListOfWords = {
-            "ABSTRACT", "ASSERT", "BOOLEAN", "BREAK", "BYTE",
-            "CASE", "CATCH", "CHAR", "CLASS", "CONST",
-            "CONTINUE", "DEFAULT", "DOUBLE", "DO", "ELSE",
-            "ENUM", "EXTENDS", "FALSE", "FINAL", "FINALLY",
-            "FLOAT", "FOR", "GOTO", "IF", "IMPLEMENTS",
-            "IMPORT", "INSTANCE", "INT", "INTERFACE",
-            "LONG", "NATIVE", "NEW", "NULL", "PACKAGE",
-            "PRIVATE", "PROTECTED", "PUBLIC", "RETURN",
-            "SHORT", "STATIC", "STRICT", "SUPER", "SWITCH",
-            "SYNCHRONIZED", "THIS", "THROW", "THROWS",
-            "TRANSIENT", "TRUE", "TRY", "VOID", "VOLATILE", "WHILE"
+            "ASSERT"
     };
     public static final Random RANDOM = new Random();
     private String YOU_WON;
@@ -46,11 +36,11 @@ public class GameActivity extends AppCompatActivity {
     private String wordDisplayedString;
     private char[] wordDisplayedCharArray;
     private TextView txtWrongGuesses;
-    private String wrongGuesses;
+    private String wrongLetters;
     private TextView txtTriesLeft;
     private int triesLeft;
     private ImageView img;
-    private final String MESSAGE_WITH_LETTERS_TRIED = "Fel gissningar: ";
+    private String MESSAGE_WITH_LETTERS_TRIED;
 
 
     void initializeGame() {
@@ -60,6 +50,7 @@ public class GameActivity extends AppCompatActivity {
         txtWrongGuesses = findViewById(R.id.wrong_guesses);
         YOU_WON = getText(R.string.you_won).toString();
         YOU_LOST = getText(R.string.you_lost).toString();
+        MESSAGE_WITH_LETTERS_TRIED = getText(R.string.wrong_guesses).toString() + " ";
         wordToGuess = hiddenWordToFind();
         wordDisplayedCharArray = wordToGuess.toCharArray();
         Arrays.fill(wordDisplayedCharArray, '_');
@@ -70,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
         userErrors = -1;
         updateImg(userErrors);
 
-        wrongGuesses = "";
+        wrongLetters = "";
         txtWrongGuesses.setText(MESSAGE_WITH_LETTERS_TRIED);
 
         triesLeft = 7;
@@ -127,11 +118,11 @@ public class GameActivity extends AppCompatActivity {
             }
         } else {
             //Display tried letter
-            if (!wrongGuesses.contains(letter)) {
-                Toast.makeText(this, R.string.wrong_letter,
+            if (!wrongLetters.contains(letter)) {
+                Toast.makeText(this, R.string.wrong_guess,
                         Toast.LENGTH_SHORT).show();
-                wrongGuesses += letter + ", ";
-                String messageToBeDisplayed = MESSAGE_WITH_LETTERS_TRIED + wrongGuesses;
+                wrongLetters += letter + ", ";
+                String messageToBeDisplayed = MESSAGE_WITH_LETTERS_TRIED + wrongLetters;
                 txtWrongGuesses.setText(messageToBeDisplayed);
 
                 decreaseAndDisplaytriesLeft();
