@@ -64,8 +64,34 @@
         app:layout_constraintTop_toBottomOf="@+id/start_game_btn"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/change_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/change_language"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/rgLanguage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/change_language2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/change_theme"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/rgTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/rgLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -76,7 +102,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
-            android:id="@+id/swedish"
+            android:id="@+id/rbSwedish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp"
@@ -88,10 +114,10 @@
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/english" />
+            app:layout_constraintEnd_toStartOf="@+id/rbEnglish" />
 
         <RadioButton
-            android:id="@+id/english"
+            android:id="@+id/rbEnglish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
@@ -99,21 +125,32 @@
             android:text="English"
             android:textColor="#000000"
             android:textSize="14sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/swedish"
+            app:layout_constraintBaseline_toBaselineOf="@+id/rbSwedish"
             app:layout_constraintEnd_toEndOf="parent" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/change_language"
+    <RadioGroup
+        android:id="@+id/rgTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/change_language"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/change_language"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/light_theme" />
+
+        <RadioButton
+            android:id="@+id/rbDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dark_theme" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,9 +6,15 @@
     <string name="main_header">Hänga Gubben</string>
     <string name="start_game_btn">Starta spelet</string>
     <string name="info_btn">Om spelet</string>
+    <string name="change_theme">
+        <u>Ändra tema</u>
+    </string>
+    <string name="light_theme">Ljust tema</string>
+    <string name="dark_theme">Mörkt tema</string>
     <string name="change_language">
         <u>Ändra språk</u>
     </string>
+
 
     <!-- Info Activity strings -->
     <string name="info_title">Om appen</string>

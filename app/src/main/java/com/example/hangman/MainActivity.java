@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,16 +20,31 @@ public class MainActivity extends AppCompatActivity {
 
     private RadioGroup radioGroup;
     private RadioButton swedish, english;
+    public static final String RADIOBUTTON_SAVE_STATE = "RadioButtonSave";
+    boolean swedishBoolean;
+    boolean englishBoolean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadLocale();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        radioGroup = findViewById(R.id.radioGroup);
-        swedish = findViewById(R.id.swedish);
-        english = findViewById(R.id.english);
+        radioGroup = findViewById(R.id.rgLanguage);
+        swedish = findViewById(R.id.rbSwedish);
+        english = findViewById(R.id.rbEnglish);
+
+        SharedPreferences prefs = getSharedPreferences(RADIOBUTTON_SAVE_STATE, MODE_PRIVATE);
+        swedishBoolean = prefs.getBoolean("swe", true);
+        englishBoolean = prefs.getBoolean("eng", false);
+
+        if (swedishBoolean) {
+            swedish.setChecked(true);
+        } else if (englishBoolean) {
+            english.setChecked(true);
+        }
+
     }
 
     @Override
@@ -73,31 +87,60 @@ public class MainActivity extends AppCompatActivity {
     public void changeLanguage(View view) {
         boolean checked = ((RadioButton) view).isChecked();
         switch (view.getId()) {
-            case R.id.swedish: {
+            case R.id.rbSwedish: {
                 if (checked) {
-                    setLanguage("sv");
-                    recreate();
+                    SharedPreferences.Editor editor = getSharedPreferences(RADIOBUTTON_SAVE_STATE, MODE_PRIVATE).edit();
+                    editor.putBoolean("swe", swedish.isChecked());
+                    editor.putBoolean("eng", english.isChecked());
+                    editor.apply();
+                    changeLang("sv");
+                    Intent i = new Intent(this, MainActivity.class);
+                    startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    overridePendingTransition(0, 0);
+                    break;
                 }
-                break;
             }
-            case R.id.english: {
+            case R.id.rbEnglish: {
                 if (checked) {
-                    setLanguage("en");
-                    recreate();
+                    SharedPreferences.Editor editor = getSharedPreferences(RADIOBUTTON_SAVE_STATE, MODE_PRIVATE).edit();
+                    editor.putBoolean("eng", english.isChecked());
+                    editor.putBoolean("swe", swedish.isChecked());
+                    editor.apply();
+                    changeLang("en");
+                    Intent i = new Intent(this, MainActivity.class);
+                    startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    overridePendingTransition(0, 0);
+                    break;
                 }
             }
         }
     }
 
-    private void setLanguage(String lang) {
-        String languageToLoad = lang; // your language
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
+    public void loadLocale() {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", MODE_PRIVATE);
+        String language = prefs.getString(langPref, "sv");
+        changeLang(language);
+    }
+
+    public void changeLang(String lang) {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        Locale myLocale = new Locale(lang);
+        saveLocale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
-        this.setContentView(R.layout.activity_main);
+    }
+
+    public void saveLocale(String lang) {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(langPref, lang);
+        editor.apply();
     }
 
 }

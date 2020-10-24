@@ -6,6 +6,11 @@
     <string name="main_header">Hang Man</string>
     <string name="start_game_btn">Start game</string>
     <string name="info_btn">About</string>
+        <string name="change_theme">
+        <u>Change theme</u>
+    </string>
+    <string name="light_theme">Light theme</string>
+    <string name="dark_theme">Dark theme</string>
     <string name="change_language">
         <u>Change language</u>
     </string>
