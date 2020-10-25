@@ -3,8 +3,11 @@ package com.example.hangman;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +43,8 @@ public class GameActivity extends AppCompatActivity {
     private int triesLeft;
     private ImageView img;
     private String MESSAGE_WITH_LETTERS_TRIED;
+    SharedPref sharedPref;
+    private Button a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,aa,ab,ac;
 
 
     void initializeGame() {
@@ -70,14 +75,47 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = new SharedPref(this);
+        loadTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        a = findViewById(R.id.a);
+        b = findViewById(R.id.b);
+        c = findViewById(R.id.c);
+        d = findViewById(R.id.d);
+        e = findViewById(R.id.e);
+        f = findViewById(R.id.f);
+        g = findViewById(R.id.g);
+        h = findViewById(R.id.h);
+        i = findViewById(R.id.i);
+        j = findViewById(R.id.j);
+        k = findViewById(R.id.k);
+        l = findViewById(R.id.l);
+        m = findViewById(R.id.m);
+        n = findViewById(R.id.n);
+        o = findViewById(R.id.o);
+        p = findViewById(R.id.p);
+        q = findViewById(R.id.q);
+        r = findViewById(R.id.r);
+        s = findViewById(R.id.s);
+        t = findViewById(R.id.t);
+        u = findViewById(R.id.u);
+        v = findViewById(R.id.v);
+        w = findViewById(R.id.w);
+        x = findViewById(R.id.x);
+        y = findViewById(R.id.y);
+        z = findViewById(R.id.z);
+        aa = findViewById(R.id.aa);
+        ab = findViewById(R.id.ab);
+        ac = findViewById(R.id.ac);
+        if (sharedPref.loadNightModeState()){
+            setDarkKeyboardTheme();
+        }
         initializeGame();
     }
 
@@ -181,6 +219,7 @@ public class GameActivity extends AppCompatActivity {
         gameOver.putExtra("WORD", wordToGuess);
         gameOver.putExtra("MSG", YOU_WON);
         gameOver.putExtra("TRIES_LEFT", triesLeft);
+        gameOver.putExtra("words_array", myListOfWords);
 //        gameOver.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(gameOver);
     }
@@ -190,8 +229,78 @@ public class GameActivity extends AppCompatActivity {
         gameOver.putExtra("WORD", wordToGuess);
         gameOver.putExtra("MSG", YOU_LOST);
         gameOver.putExtra("TRIES_LEFT", triesLeft);
+        gameOver.putExtra("words_array", myListOfWords);
 //        gameOver.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(gameOver);
+    }
+
+    public void loadTheme() {
+        if (!sharedPref.loadNightModeState()) {
+            setTheme(R.style.AppTheme);
+        } else if (sharedPref.loadNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        }
+    }
+
+    private void setDarkKeyboardTheme() {
+        a.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        b.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        c.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        d.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        e.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        f.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        g.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        h.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        i.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        j.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        k.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        l.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        m.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        n.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        o.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        p.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        q.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        r.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        s.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        t.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        u.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        v.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        w.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        x.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        y.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        z.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        aa.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        ab.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        ac.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
     }
 
 }

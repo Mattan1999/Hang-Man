@@ -3,7 +3,7 @@
     <!-- Light/day theme -->
     <color name="colorPrimary">#00000000</color>
     <color name="colorPrimaryDark">#BDBDBD</color>
-    <color name="colorAccent">#952E2E</color>
+    <color name="colorAccent">#A83232</color>
     <color name="actionbarIconColor">#000000</color>
     <color name="backgroundColor">#FFFFFF</color>
     <color name="textColor">#2C2C2C</color>
@@ -11,8 +11,8 @@
     <!-- Dark/night theme -->
     <color name="darkColorPrimary">#00000000</color>
     <color name="darkColorPrimaryDark">#313131</color>
-    <color name="darkActionbarIconColor">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="darkBackgroundColor">#414141</color>
     <color name="darkTextColor">#FFFFFF</color>
-    <color name="darkButtonColor">#525252</color>
+    <color name="darkButtonColor">#6C6C6C</color>
 </resources>

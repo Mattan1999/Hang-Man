@@ -3,15 +3,19 @@ package com.example.hangman;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -22,9 +26,13 @@ public class MainActivity extends AppCompatActivity {
     public static final String RADIOBUTTON_SAVE_STATE = "RadioButtonSave";
     boolean swedishBoolean, englishBoolean, lightMode, darkMode;
     private String[] myListOfWords;
+    private SharedPref sharedPref;
+    private TextView theme, lang;
+    private Button startGame, info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = new SharedPref(this);
         loadLocale();
         loadTheme();
         super.onCreate(savedInstanceState);
@@ -35,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         english = findViewById(R.id.rbEnglish);
         light = findViewById(R.id.rbLight);
         dark = findViewById(R.id.rbDark);
+        theme = findViewById(R.id.change_theme);
+        lang = findViewById(R.id.change_language);
+        startGame = findViewById(R.id.start_game_btn);
+        info = findViewById(R.id.info_btn);
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             light.setChecked(true);
@@ -68,9 +80,24 @@ public class MainActivity extends AppCompatActivity {
 
         if (lightMode) {
             light.setChecked(true);
+
         } else if (darkMode) {
             dark.setChecked(true);
+            setDarkThemeColors();
         }
+    }
+
+    private void setDarkThemeColors() {
+        light.setTextColor(getResources().getColor(R.color.white));
+        dark.setTextColor(getResources().getColor(R.color.white));
+        swedish.setTextColor(getResources().getColor(R.color.white));
+        english.setTextColor(getResources().getColor(R.color.white));
+        lang.setTextColor(getResources().getColor(R.color.white));
+        theme.setTextColor(getResources().getColor(R.color.white));
+        startGame.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
+        info.getBackground().setColorFilter(ContextCompat.getColor(this,
+                R.color.darkButtonColor), PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
@@ -84,8 +111,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.start_game_btn:
-                Intent gameOver = new Intent(this, GameActivity.class);
-                startActivity(gameOver);
+                Intent startGame = new Intent(this, GameActivity.class);
+                startGame.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startGame.putExtra("words_array", myListOfWords);
+                startActivity(startGame);
                 break;
 
             case R.id.info_screen:
@@ -150,13 +179,29 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.rbLight: {
                 if (checked) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    SharedPreferences.Editor editor = getSharedPreferences(RADIOBUTTON_SAVE_STATE, MODE_PRIVATE).edit();
+                    editor.putBoolean("light", light.isChecked());
+                    editor.putBoolean("dark", dark.isChecked());
+                    editor.apply();
+                    sharedPref.setNightModeState(false);
+                    Intent i = new Intent(this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                    overridePendingTransition(0, 0);
                     break;
                 }
             }
             case R.id.rbDark: {
                 if (checked) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    SharedPreferences.Editor editor = getSharedPreferences(RADIOBUTTON_SAVE_STATE, MODE_PRIVATE).edit();
+                    editor.putBoolean("light", light.isChecked());
+                    editor.putBoolean("dark", dark.isChecked());
+                    editor.apply();
+                    sharedPref.setNightModeState(true);
+                    Intent i = new Intent(this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                    overridePendingTransition(0, 0);
                     break;
                 }
             }
@@ -191,9 +236,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadTheme() {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+        if (!sharedPref.loadNightModeState()) {
             setTheme(R.style.AppTheme);
-        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        } else if (sharedPref.loadNightModeState()) {
             setTheme(R.style.DarkTheme);
         }
     }

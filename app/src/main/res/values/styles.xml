@@ -1,11 +1,26 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/backgroundColor</item>
+        <item name="android:buttonTint">@color/colorAccent</item>
+    </style>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/darkBackgroundColor</item>
+        <item name="android:textColor">@color/darkTextColor</item>
+
+
+
     </style>
 
     <!-- Customize your theme here. -->
     <style name="CustomToolbarStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:buttonTint">@color/darkButtonColor</item>
+
     </style>
 
 </resources>
