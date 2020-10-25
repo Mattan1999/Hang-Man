@@ -144,12 +144,14 @@
             android:id="@+id/rbLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="changeTheme"
             android:text="@string/light_theme" />
 
         <RadioButton
             android:id="@+id/rbDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="changeTheme"
             android:text="@string/dark_theme" />
     </RadioGroup>
 

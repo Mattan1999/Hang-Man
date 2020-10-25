@@ -55,6 +55,13 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent home = new Intent(this, MainActivity.class);
+        home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(home);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);

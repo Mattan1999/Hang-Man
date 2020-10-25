@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#A4C3B2</color>
-    <color name="colorPrimaryDark">#6B9080</color>
-    <color name="colorAccent">#CCE3DE</color>
+    <!-- Light/day theme -->
+    <color name="colorPrimary">#00000000</color>
+    <color name="colorPrimaryDark">#BDBDBD</color>
+    <color name="colorAccent">#952E2E</color>
     <color name="actionbarIconColor">#000000</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="textColor">#2C2C2C</color>
+
+    <!-- Dark/night theme -->
+    <color name="darkColorPrimary">#00000000</color>
+    <color name="darkColorPrimaryDark">#313131</color>
+    <color name="darkActionbarIconColor">#FFFFFF</color>
+    <color name="darkBackgroundColor">#414141</color>
+    <color name="darkTextColor">#FFFFFF</color>
+    <color name="darkButtonColor">#525252</color>
 </resources>

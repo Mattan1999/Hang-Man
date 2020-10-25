@@ -24,18 +24,8 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
-    public static final String[] myListOfEnglishWords = {
-            "ASSERT", "KNOT", "CORRUPTION", "INTOXICANT", "AXIS",
-            "LITTLE", "CRAWLER", "KANGAROO", "SMILE", "CENTRAL",
-            "APPARENT", "FOREIGN", "CHARISMA", "TREMOR", "ALLOTMENT",
-            "PISTOL", "LULLABY", "BEAUTY", "AUTHORITY", "PILL"
-    };
-    public static final String[] myListOfSwedishWords = {
-            "GLÖMMA", "PAUS", "FLYTTAT", "VÄNJA", "GJORDES",
-            "PEKA", "STOREBROR", "KONJAK", "SKAKADE", "SAMLATS",
-            "LÄPPSTIFT", "RABATT", "KONFLIKT", "JORDNÖTSSMÖR", "FUNKAR",
-            "FÄNGELSET", "SLÄPPTE", "INTERNATIONELLA", "TÄLTET", "HÅLAN"
-    };
+
+    public static String[] myListOfWords;
     public static final Random RANDOM = new Random();
     private String YOU_WON;
     private String YOU_LOST;
@@ -59,8 +49,9 @@ public class GameActivity extends AppCompatActivity {
         txtWrongGuesses = findViewById(R.id.wrong_guesses);
         YOU_WON = getText(R.string.you_won).toString();
         YOU_LOST = getText(R.string.you_lost).toString();
+        myListOfWords = getIntent().getStringArrayExtra("words_array");
         MESSAGE_WITH_LETTERS_TRIED = getText(R.string.wrong_guesses).toString() + " ";
-        wordToGuess = hiddenEnglishWordToFind();
+        wordToGuess = hiddenWordToFind();
         wordDisplayedCharArray = wordToGuess.toCharArray();
         Arrays.fill(wordDisplayedCharArray, '_');
         wordDisplayedString = String.valueOf(wordDisplayedCharArray);
@@ -114,8 +105,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     // Method returning randomly a word to find
-    private String hiddenEnglishWordToFind() {
-        return myListOfEnglishWords[RANDOM.nextInt(myListOfEnglishWords.length)];
+    private String hiddenWordToFind() {
+        return myListOfWords[RANDOM.nextInt(myListOfWords.length)];
     }
 
     private void checkIfLetterIsInWord(String letter) {

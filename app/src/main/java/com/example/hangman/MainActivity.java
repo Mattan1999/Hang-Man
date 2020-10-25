@@ -2,6 +2,7 @@ package com.example.hangman;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,40 +12,65 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private RadioGroup radioGroup;
-    private RadioButton swedish, english;
+    private RadioButton swedish, english, light, dark;
     public static final String RADIOBUTTON_SAVE_STATE = "RadioButtonSave";
-    boolean swedishBoolean;
-    boolean englishBoolean;
+    boolean swedishBoolean, englishBoolean, lightMode, darkMode;
+    private String[] myListOfWords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         loadLocale();
+        loadTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        radioGroup = findViewById(R.id.rgLanguage);
         swedish = findViewById(R.id.rbSwedish);
         english = findViewById(R.id.rbEnglish);
+        light = findViewById(R.id.rbLight);
+        dark = findViewById(R.id.rbDark);
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            light.setChecked(true);
+        } else {
+            dark.setChecked(true);
+        }
 
         SharedPreferences prefs = getSharedPreferences(RADIOBUTTON_SAVE_STATE, MODE_PRIVATE);
         swedishBoolean = prefs.getBoolean("swe", true);
         englishBoolean = prefs.getBoolean("eng", false);
+        lightMode = prefs.getBoolean("light", true);
+        darkMode = prefs.getBoolean("dark", false);
 
         if (swedishBoolean) {
             swedish.setChecked(true);
+            myListOfWords = new String[]{
+                    "GLÖMMA", "PAUS", "FLYTTAT", "VÄNJA", "GJORDES",
+                    "PEKA", "STOREBROR", "KONJAK", "SKAKADE", "SAMLATS",
+                    "LÄPPSTIFT", "RABATT", "KONFLIKT", "JORDNÖTSSMÖR", "FUNKAR",
+                    "FÄNGELSET", "SLÄPPTE", "INTERNATIONELLA", "TÄLTET", "HÅLAN"
+            };
         } else if (englishBoolean) {
             english.setChecked(true);
+            myListOfWords = new String[] {
+                    "ASSERT", "KNOT", "CORRUPTION", "INTOXICANT", "AXIS",
+                    "LITTLE", "CRAWLER", "KANGAROO", "SMILE", "CENTRAL",
+                    "APPARENT", "FOREIGN", "CHARISMA", "TREMOR", "ALLOTMENT",
+                    "PISTOL", "LULLABY", "BEAUTY", "AUTHORITY", "PILL"
+            };
         }
 
+        if (lightMode) {
+            light.setChecked(true);
+        } else if (darkMode) {
+            dark.setChecked(true);
+        }
     }
 
     @Override
@@ -81,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStartGameClick(View view) {
         Intent startGame = new Intent(this, GameActivity.class);
         startGame.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startGame.putExtra("words_array", myListOfWords);
         startActivity(startGame);
     }
 
@@ -95,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
                     editor.apply();
                     changeLang("sv");
                     Intent i = new Intent(this, MainActivity.class);
-                    startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    startActivity(i);
+                    finish();
                     overridePendingTransition(0, 0);
                     break;
                 }
@@ -108,8 +136,27 @@ public class MainActivity extends AppCompatActivity {
                     editor.apply();
                     changeLang("en");
                     Intent i = new Intent(this, MainActivity.class);
-                    startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    startActivity(i);
+                    finish();
                     overridePendingTransition(0, 0);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void changeTheme(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        switch (view.getId()) {
+            case R.id.rbLight: {
+                if (checked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    break;
+                }
+            }
+            case R.id.rbDark: {
+                if (checked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     break;
                 }
             }
@@ -141,6 +188,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(langPref, lang);
         editor.apply();
+    }
+
+    public void loadTheme() {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            setTheme(R.style.AppTheme);
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkTheme);
+        }
     }
 
 }
